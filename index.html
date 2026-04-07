@@ -908,8 +908,11 @@
         <select id="fqty" name="quantity" required onchange="toggleExtra(this.value)">
           <option value="" disabled selected>Select quantity</option>
           <option value="1">1 unit — 40€</option>
-          <option value="2">2 units — 39€ </option>
-          <option value="3+">3 or more — 38€ each</option>
+          <option value="2">2 units — 39€ each</option>
+          <option value="3">3 units — 38€ each</option>
+          <option value="4">4 units — 38€ each</option>
+          <option value="5">5 units — 38€ each</option>
+          <option value="6">6 units — 38€ each</option>
         </select>
       </div>
 
@@ -935,28 +938,64 @@
         </select>
       </div>
 
-      <!-- Extra person fields (hidden by default) -->
-      <div id="extraFields" style="display:none">
+      <!-- Extra person fields (hidden by default, shown dynamically) -->
+      <div id="extraFields2" style="display:none">
         <p class="form-note" style="margin-top:8px;margin-bottom:14px">2nd person details</p>
         <div class="field-row">
-          <div class="field">
-            <label for="fname2">Name</label>
-            <input type="text" id="fname2" name="name2" placeholder="Their name">
-          </div>
-          <div class="field">
-            <label for="femail2">Email</label>
-            <input type="email" id="femail2" name="email2" placeholder="their@email.com">
-          </div>
+          <div class="field"><label for="fname2">Name</label><input type="text" id="fname2" name="name2" placeholder="Their name"></div>
+          <div class="field"><label for="femail2">Email</label><input type="email" id="femail2" name="email2" placeholder="their@email.com"></div>
         </div>
         <div class="field">
           <label for="fsize2">Their size</label>
-          <select id="fsize2" name="size2">
-            <option value="" disabled selected>Select size</option>
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-          </select>
+          <select id="fsize2" name="size2"><option value="" disabled selected>Select size</option><option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option></select>
+        </div>
+      </div>
+
+      <div id="extraFields3" style="display:none">
+        <p class="form-note" style="margin-top:8px;margin-bottom:14px">3rd person details</p>
+        <div class="field-row">
+          <div class="field"><label for="fname3">Name</label><input type="text" id="fname3" name="name3" placeholder="Their name"></div>
+          <div class="field"><label for="femail3">Email</label><input type="email" id="femail3" name="email3" placeholder="their@email.com"></div>
+        </div>
+        <div class="field">
+          <label for="fsize3">Their size</label>
+          <select id="fsize3" name="size3"><option value="" disabled selected>Select size</option><option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option></select>
+        </div>
+      </div>
+
+      <div id="extraFields4" style="display:none">
+        <p class="form-note" style="margin-top:8px;margin-bottom:14px">4th person details</p>
+        <div class="field-row">
+          <div class="field"><label for="fname4">Name</label><input type="text" id="fname4" name="name4" placeholder="Their name"></div>
+          <div class="field"><label for="femail4">Email</label><input type="email" id="femail4" name="email4" placeholder="their@email.com"></div>
+        </div>
+        <div class="field">
+          <label for="fsize4">Their size</label>
+          <select id="fsize4" name="size4"><option value="" disabled selected>Select size</option><option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option></select>
+        </div>
+      </div>
+
+      <div id="extraFields5" style="display:none">
+        <p class="form-note" style="margin-top:8px;margin-bottom:14px">5th person details</p>
+        <div class="field-row">
+          <div class="field"><label for="fname5">Name</label><input type="text" id="fname5" name="name5" placeholder="Their name"></div>
+          <div class="field"><label for="femail5">Email</label><input type="email" id="femail5" name="email5" placeholder="their@email.com"></div>
+        </div>
+        <div class="field">
+          <label for="fsize5">Their size</label>
+          <select id="fsize5" name="size5"><option value="" disabled selected>Select size</option><option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option></select>
+        </div>
+      </div>
+
+      <div id="extraFields6" style="display:none">
+        <p class="form-note" style="margin-top:8px;margin-bottom:14px">6th person details</p>
+        <div class="field-row">
+          <div class="field"><label for="fname6">Name</label><input type="text" id="fname6" name="name6" placeholder="Their name"></div>
+          <div class="field"><label for="femail6">Email</label><input type="email" id="femail6" name="email6" placeholder="their@email.com"></div>
+        </div>
+        <div class="field">
+          <label for="fsize6">Their size</label>
+          <select id="fsize6" name="size6"><option value="" disabled selected>Select size</option><option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option></select>
         </div>
       </div>
 
@@ -1012,18 +1051,19 @@
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
-  // Toggle extra person fields
+  // Toggle extra person fields based on quantity
   function toggleExtra(val) {
-    const extra = document.getElementById('extraFields');
-    const e2 = document.getElementById('femail2');
-    const n2 = document.getElementById('fname2');
-    const s2 = document.getElementById('fsize2');
-    if (val === '2' || val === '3+') {
-      extra.style.display = 'block';
-      e2.required = true; n2.required = true; s2.required = true;
-    } else {
-      extra.style.display = 'none';
-      e2.required = false; n2.required = false; s2.required = false;
+    const qty = parseInt(val) || 1;
+    for (let i = 2; i <= 6; i++) {
+      const block = document.getElementById('extraFields' + i);
+      if (!block) continue;
+      const show = qty >= i;
+      block.style.display = show ? 'block' : 'none';
+      // Set required on name/email/size inside
+      block.querySelectorAll('input, select').forEach(function(el) {
+        el.required = show;
+        if (!show) el.value = '';
+      });
     }
   }
 
